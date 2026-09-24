@@ -63,7 +63,7 @@ CREATE TABLE "Recetas" (
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-
+--Trabajo hecho por kevincin, saul y marquito
 CREATE TABLE "Estudios" (
     id_estudio BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre_archivo VARCHAR(255) NOT NULL,
