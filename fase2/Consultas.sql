@@ -1,1 +1,1 @@
-
+--C1. JOIN de tres o más tablas (patrón P1)
