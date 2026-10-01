@@ -1,7 +1,7 @@
 
 -- =============================================================================
 -- ESQUEMA DE BASE DE DATOS - SISTEMA MÉDICO
--- Autores: kevincin, Saul y Marquito
+-- Autores: kevin, Saul y Marco
 -- Motor: PostgreSQL
 -- Descripción: Creación de tablas e integridad referencial para el módulo
 --              de gestión de usuarios, médicos, pacientes, consultas y estudios.
