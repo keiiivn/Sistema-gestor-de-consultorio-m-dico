@@ -56,3 +56,19 @@ WHERE EXISTS (
     FROM "Consultas" c
     WHERE c.id_paciente = p.id_paciente
 );
+
+--C6. CTE en dos pasos (patrón P6)
+
+-- Paso 1: Identificar a los pacientes que SÍ tienen consultas
+WITH pacientes_con_consultas AS (
+    SELECT DISTINCT id_paciente 
+    FROM "Consultas"
+)
+-- Paso 2: Seleccionar a los pacientes que no están en la lista anterior
+SELECT 
+    p.id_paciente, 
+    p.nombre, 
+    p.fecha_registro
+FROM "Pacientes" p
+LEFT JOIN pacientes_con_consultas c ON p.id_paciente = c.id_paciente
+WHERE c.id_paciente IS NULL;
