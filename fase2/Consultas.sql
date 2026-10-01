@@ -72,3 +72,11 @@ SELECT
 FROM "Pacientes" p
 LEFT JOIN pacientes_con_consultas c ON p.id_paciente = c.id_paciente
 WHERE c.id_paciente IS NULL;
+
+-- C7. Tendencia en el tiempo sobre su tabla grande (patrón P3 con date_trunc)
+SELECT 
+    DATE_TRUNC('month', fecha) AS mes,
+    COUNT(id_consulta) AS total_consultas
+FROM "Consultas"
+GROUP BY mes
+ORDER BY mes;
