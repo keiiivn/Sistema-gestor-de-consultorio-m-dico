@@ -80,3 +80,17 @@ SELECT
 FROM "Consultas"
 GROUP BY mes
 ORDER BY mes;
+
+-- C8. Reto (opcional; obligatorio como segunda consulta en equipos de cuatro): función de ventana
+SELECT 
+    p.nombre,
+    DATE_TRUNC('month', c.fecha) AS mes,
+    COUNT(c.id_consulta) AS total_consultas,
+    RANK() OVER (
+        PARTITION BY DATE_TRUNC('month', c.fecha) 
+        ORDER BY COUNT(c.id_consulta) DESC
+    ) AS lugar
+FROM "Consultas" c
+JOIN "Pacientes" p ON p.id_paciente = c.id_paciente
+GROUP BY p.id_paciente, p.nombre, DATE_TRUNC('month', c.fecha)
+ORDER BY mes, lugar;
