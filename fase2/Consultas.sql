@@ -11,6 +11,16 @@ JOIN "Medicos" m
     ON m.id_medico = p.id_medico
 LIMIT 20;
 
+-- C2. Registros padre sin actividad (patrón P2 o P5)
+SELECT 
+    p.id_paciente, 
+    p.nombre, 
+    p.fecha_registro
+FROM "Pacientes" p
+LEFT JOIN "Consultas" c ON p.id_paciente = c.id_paciente
+WHERE c.id_consulta IS NULL;
+
+
 -- C3. Agregación con GROUP BY y HAVING (patrón P3)
 SELECT
 	p.id_paciente,
