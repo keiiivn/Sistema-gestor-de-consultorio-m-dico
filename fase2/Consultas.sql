@@ -45,3 +45,14 @@ WHERE NOT EXISTS (
     FROM "Consultas" c 
     WHERE c.id_paciente = p.id_paciente
 );
+
+--C5. EXISTS o NOT EXISTS (patrón P5)
+SELECT
+    p.id_paciente,
+    p.nombre
+FROM "Pacientes" p
+WHERE EXISTS (
+    SELECT 1
+    FROM "Consultas" c
+    WHERE c.id_paciente = p.id_paciente
+);
