@@ -1,4 +1,4 @@
--- 1. Tabla: Usuarios
+
 CREATE TABLE "Usuarios" (
     id_usuario BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE "Usuarios" (
     rol VARCHAR(50) NOT NULL
 );
 
--- 2. Tabla: Medicos
+
 CREATE TABLE "Medicos" (
     id_medico BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     cedula VARCHAR(50) UNIQUE NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE "Medicos" (
         ON DELETE SET NULL ON UPDATE CASCADE
 );
 
--- 3. Tabla: Pacientes
+
 CREATE TABLE "Pacientes" (
     id_paciente BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE "Pacientes" (
         ON DELETE SET NULL ON UPDATE CASCADE
 );
 
--- 4. Tabla: Consultas
+
 CREATE TABLE "Consultas" (
     id_consulta BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     motivo TEXT NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE "Consultas" (
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- 5. Tabla: Recetas
+
 CREATE TABLE "Recetas" (
     id_receta BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     indicaciones TEXT NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE "Recetas" (
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- 6. Tabla: Estudios
+--Trabajo hecho por kevincin, saul y marquito
 CREATE TABLE "Estudios" (
     id_estudio BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre_archivo VARCHAR(255) NOT NULL,
