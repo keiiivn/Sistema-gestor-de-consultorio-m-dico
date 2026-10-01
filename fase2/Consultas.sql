@@ -32,3 +32,16 @@ JOIN "Consultas" c
 GROUP BY p.id_paciente, p.nombre
 HAVING COUNT(c.id_consulta) > 100
 ORDER BY total_consultas DESC;
+
+-- C4. Subconsulta en WHERE (patrón P4)
+
+SELECT 
+    id_paciente, 
+    nombre, 
+    fecha_registro
+FROM "Pacientes" p
+WHERE NOT EXISTS (
+    SELECT 1 
+    FROM "Consultas" c 
+    WHERE c.id_paciente = p.id_paciente
+);
