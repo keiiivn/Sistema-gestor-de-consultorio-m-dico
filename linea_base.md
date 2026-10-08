@@ -35,6 +35,7 @@ ORDER BY total_consultas DESC;
 
 -- C4. Subconsulta en WHERE (patrón P4)
 
+
 SELECT 
     id_paciente, 
     nombre, 
@@ -94,3 +95,42 @@ FROM "Consultas" c
 JOIN "Pacientes" p ON p.id_paciente = c.id_paciente
 GROUP BY p.id_paciente, p.nombre, DATE_TRUNC('month', c.fecha)
 ORDER BY mes, lugar;
+
+
+
+## Diagnóstico 7 oct
+
+### Veredictos y Columnas Candidatas
+
+* **C1 (JOIN de tres o más tablas):**
+  * **Veredicto:** **Requiere índice.** Los cruces de tablas realizan escaneos secuenciales (`Seq Scan`) en la tabla transaccional debido a la falta de índices en las llaves foráneas.
+  * **Columnas candidatas:** `"Consultas".id_paciente`, `"Pacientes".id_medico`
+
+* **C2 (Registros padre sin actividad - LEFT JOIN):**
+  * **Veredicto:** **Requiere índice.** Acelera el cruce anti-join entre pacientes y consultas, además de optimizar el filtro por nombre.
+  * **Columnas candidatas:** `"Consultas".id_paciente`, `"Pacientes".nombre`
+
+* **C3 (Agregación con GROUP BY y HAVING):**
+  * **Veredicto:** **Requiere índice.** La agregación y conteo por paciente exige leer miles de filas en memoria; un índice resuelve la agrupación directamente desde la clave.
+  * **Columnas candidatas:** `"Consultas".id_paciente`
+
+* **C4 (Subconsulta en WHERE - NOT EXISTS):**
+  * **Veredicto:** **Requiere índice.** Evaluar la inexistencia de registros en la tabla hija requiere búsquedas logarítmicas $O(\log n)$ para evitar recorridos completos por cada paciente.
+  * **Columnas candidatas:** `"Consultas".id_paciente`
+
+* **C5 (Subconsulta EXISTS):**
+  * **Veredicto:** **Requiere índice.** Permite al planificador detener la búsqueda en el primer acierto (`Index Scan`) sin escanear la tabla entera.
+  * **Columnas candidatas:** `"Consultas".id_paciente`
+
+* **C6 (CTE en dos pasos):**
+  * **Veredicto:** **Requiere índice.** El paso de extracción de IDs únicos (`SELECT DISTINCT id_paciente`) sobre la tabla grande se resuelve de forma casi instantánea mediante un índice.
+  * **Columnas candidatas:** `"Consultas".id_paciente`
+
+* **C7 (Tendencia en el tiempo sobre tabla grande):**
+  * **Veredicto:** **No requiere índice.** Procesa el 100% de los registros para agrupar por mes y utiliza `DATE_TRUNC`, por lo que el `Seq Scan` es la opción más rápida.
+  * **Columnas candidatas:** Ninguna
+
+* **C8 (Función de ventana / RANK):**
+  * **Veredicto:** **Requiere índice.** Optimiza el `JOIN` con pacientes y acelera la ordenación y particionado temporal.
+  * **Columnas candidatas:** `"Consultas".id_paciente`, `"Consultas".fecha`
+    
