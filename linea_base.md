@@ -136,8 +136,6 @@ ORDER BY mes, lugar;
 
 
 
-Resultados 8 oct
-
 
 # Resultados de Optimización por Índice - 8 Oct
 
@@ -151,3 +149,23 @@ Resultados 8 oct
 | **Veredicto** | **Se queda.** El tiempo bajó considerablemente y PostgreSQL comenzó a utilizar el índice. |
 
 ---
+
+## Índice: `consultas_paciente_fecha_idx`
+
+| Métrica | Detalle |
+| :--- | :--- |
+| **Consulta** | C8 |
+| **Antes** | Hash Join · 468 buffers · 17.250 ms |
+| **Después** | Incremental Sort + WindowAgg · 474 buffers · 16.8 ms |
+| **Veredicto** | **Se borra.** La mejora fue mínima y el plan siguió realizando ordenamientos y agregaciones sobre la mayor parte de los registros. |
+
+---
+
+## Índice: `consultas_id_paciente_c3_idx`
+
+| Métrica | Detalle |
+| :--- | :--- |
+| **Consulta** | C3 |
+| **Antes** | Sort · 471 buffers · 303.824 ms |
+| **Después** | Sort + HashAggregate + Hash Join · 471 buffers · 11.959 ms |
+| **Veredicto** | **Se queda.** Aunque el plan cambió poco, el tiempo de ejecución disminuyó significativamente. |
