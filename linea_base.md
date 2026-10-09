@@ -133,4 +133,21 @@ ORDER BY mes, lugar;
 * **C8 (Función de ventana / RANK):**
   * **Veredicto:** **Requiere índice.** Optimiza el `JOIN` con pacientes y acelera la ordenación y particionado temporal.
   * **Columnas candidatas:** `"Consultas".id_paciente`, `"Consultas".fecha`
-    
+
+
+
+Resultados 8 oct
+
+
+# Resultados de Optimización por Índice - 8 Oct
+
+## Índice: `consultas_id_paciente_idx`
+
+| Métrica | Detalle |
+| :--- | :--- |
+| **Consulta** | C5 |
+| **Antes** | Hash Join · 468 buffers · 346.568 ms |
+| **Después** | Nested Loop Semi Join + Index Only Scan · 1057 buffers · 1.420 ms |
+| **Veredicto** | **Se queda.** El tiempo bajó considerablemente y PostgreSQL comenzó a utilizar el índice. |
+
+---
